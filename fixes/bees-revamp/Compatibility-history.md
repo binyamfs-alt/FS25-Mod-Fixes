@@ -6,7 +6,7 @@ This supplements the original [honey inspection](Inspection.md) and [toggle repa
 
 The retained source captured during the 22 September 2026 inspection already contained the earlier compatibility repairs while still reporting 1.0.1.0. Thus the version number alone does not distinguish an untouched author build from that local patched build. The active Alma build reports 1.0.1.4. Earlier compatibility behavior is reconstructed from that retained source and corroborated by the Game Crash Report conversation, which reported working hive recognition, bee counts and proximity infoboxes before investigating honey.
 
-The original standalone report for those earlier repairs has not been located among the currently recovered files. This document is a reconstruction, not a claim to reproduce that missing report verbatim. The recovered Inspection.md and Repair-notes.md are the earlier supplied reports available locally.
+The supplied [Bees Revamp Full Debugging Report](BeesRevamp_Full_Debugging_Report.docx) has now been recovered and preserved unchanged. Its [readable summary](Full-debugging-report.md) documents all B01-B09 items, including the guarded multifruit lookup, failed upgrade iterations, custom Yurg hive count and final gameplay checks. That report is the primary historical record for the earlier repair. The source-based notes below supplement it.
 
 ## 1. Mission loading and hive-system identity
 

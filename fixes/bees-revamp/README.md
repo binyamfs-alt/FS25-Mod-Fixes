@@ -2,6 +2,11 @@
 
 Original mod author: Peppie84. Original inspected version: 1.0.1.0. Local compatibility repair: 1.0.1.4. [Detailed repair and test notes](Repair-notes.md) record the completed work. The original or modified mod is not distributed here.
 
+## Original full report
+
+- [Original Word debugging report](BeesRevamp_Full_Debugging_Report.docx), preserved unchanged.
+- [Readable full repair summary](Full-debugging-report.md), covering all nine B01-B09 items and recorded verification.
+
 ## Full repair record
 
 See [Compatibility and repair history](Compatibility-history.md) for mission loading/system identity, third-party hive registration, initial sound/FX refresh, proximity infobox selection, local HEMP/CLOVER compatibility and later in-game confirmation. The optional honey toggle below is one part of the work. The recovered [original inspection report](Inspection.md) is also preserved.
