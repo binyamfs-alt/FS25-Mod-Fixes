@@ -1,6 +1,10 @@
-# Bees Revamp optional vanilla honey repair
+# Bees Revamp repairs and compatibility
 
 Original mod author: Peppie84. Original inspected version: 1.0.1.0. Local compatibility repair: 1.0.1.4. [Detailed repair and test notes](Repair-notes.md) record the completed work. The original or modified mod is not distributed here.
+
+## Full repair record
+
+See [Compatibility and repair history](Compatibility-history.md) for mission loading/system identity, third-party hive registration, initial sound/FX refresh, proximity infobox selection, local HEMP/CLOVER compatibility and later in-game confirmation. The optional honey toggle below is one part of the work. The recovered [original inspection report](Inspection.md) is also preserved.
 
 ## Problem and behavior
 
@@ -26,7 +30,7 @@ Back up the mod and save and close FS25. Retain `FS25_z_BeesRevamp.zip` and inst
 
 ## Validation and rollback
 
-Reproduce with a living hive and an owned unobstructed spawner during active production. Check accrued litres, not only whether a full pallet appears. Repeated collection at identical game time should yield zero additional honey. Check menu opening, mode changes, reload persistence and the per-minute output summary. Stock spawner clearance, pallet limits and the actual Lazy Distribution trigger still require live end-to-end checks.
+Reproduce with a living hive and an owned unobstructed spawner during active production. Check accrued litres, not only whether a full pallet appears. Repeated collection at identical game time should yield zero additional honey. Check menu opening, mode changes, reload persistence and the per-minute output summary. A later On -> Off -> On gameplay test confirmed spawning stopped and resumed in the tested setup. See the compatibility history for that recovered confirmation. Other clearance, pallet-limit and multiplayer scenarios still need their own checks.
 
 Recorded automated tests cover Lua compilation, toggle behavior, time accounting, menu callbacks, persistence and network serialization, plus stock SDK pipeline simulation. Those are historical test results, not tests rerun when publishing these notes. Restore the backed-up ZIP to undo the repair; preserve or restore the save backup as appropriate.
 

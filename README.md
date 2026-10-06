@@ -5,7 +5,7 @@ BinyamFS repair notes and reproducible edit instructions for third-party Farming
 | Record | Applicable version | Status |
 | --- | --- | --- |
 | [Zielonka repair review](fixes/zielonka/README.md) | Zielonka Real Orchards Edition Multifruit 1.3.0.1 local snapshot | Recorded in-game checks, with explicit untested items |
-| [Bees Revamp optional vanilla honey](fixes/bees-revamp/README.md) | Original reviewed 1.0.1.0; local repair 1.0.1.4 | Automated tests recorded; live end-to-end confirmation still required |
+| [Bees Revamp repairs and compatibility](fixes/bees-revamp/README.md) | Original reviewed 1.0.1.0; local repair 1.0.1.4 | Earlier hive/infobox repairs and later On/Off gameplay confirmation recorded |
 | [Equipment and other mod repairs](fixes/zielonka/Other-mod-repair-report.md) | Historical setup-specific records | Individual versions and binaries need reconfirmation |
 
 ## Applying a fix
