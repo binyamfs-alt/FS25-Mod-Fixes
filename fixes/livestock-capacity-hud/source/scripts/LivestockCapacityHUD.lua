@@ -6,7 +6,7 @@ function LivestockCapacityHUD.prerequisitesPresent(specializations)
 end
 
 function LivestockCapacityHUD.registerOverwrittenFunctions(vehicleType)
-    for _, name in ipairs({"getMaxNumOfAnimals", "getSupportsAnimalType", "getFillLevelInformation"}) do
+    for _, name in ipairs({"getMaxNumOfAnimals", "getFillLevelInformation"}) do
         SpecializationUtil.registerOverwrittenFunction(vehicleType, name, LivestockCapacityHUD[name])
     end
 end
@@ -50,24 +50,13 @@ function LivestockCapacityHUD.warn(vehicle)
     end
 end
 
-function LivestockCapacityHUD:getSupportsAnimalType(superFunc, typeIndex)
-    if not superFunc(self, typeIndex) then return false end
-    if not LivestockCapacityHUD.isTypeAllowed(self, typeIndex) then
-        LivestockCapacityHUD.warn(self)
-        return false
-    end
-    return true
-end
-
 function LivestockCapacityHUD:getMaxNumOfAnimals(superFunc, animalType)
     local requested = animalType or self:getCurrentAnimalType()
     if requested ~= nil and self.spec_livestockTrailer.animalTypeIndexToPlaces[requested.typeIndex] == nil then
         return 0
     end
-    if requested ~= nil and not LivestockCapacityHUD.isTypeAllowed(self, requested.typeIndex) then
-        LivestockCapacityHUD.warn(self)
-        return 0
-    end
+    -- The dialog queries other types while opening and populating its lists.
+    -- Reject only at the transfer action, never during these read-only queries.
     return superFunc(self, animalType)
 end
 

@@ -23,10 +23,10 @@ assert(not H.isTypeAllowed(vehicle,2))
 local capacity=5000
 vehicle.getMaxNumOfAnimals=function(self,t) return H.getMaxNumOfAnimals(self,function() return capacity end,t) end
 assert(vehicle:getMaxNumOfAnimals({typeIndex=1})==5000)
-assert(vehicle:getMaxNumOfAnimals({typeIndex=2})==0)
-assert(warnings==1)
-assert(not H.getSupportsAnimalType(vehicle,function() return true end,2))
-assert(warnings==1) -- no warning flood
+assert(vehicle:getMaxNumOfAnimals({typeIndex=2})==5000)
+assert(warnings==0) -- opening/browsing must never fire a rejection warning
+assert(H.getSupportsAnimalType==nil) -- never filter the screen's advertised animal types
+assert(warnings==0)
 local display={fillLevelData={}}
 function display:addFillLevel(ft,n,c,p,m,t,label)
   self.fillLevelData={{isValid=true,fillType=ft,customFillTypeText=label,fillLevel=n,capacity=c}}
@@ -46,3 +46,30 @@ H.updateDisplay(display,function(d) d.fillLevelData={} end)
 assert(next(display.bfsAnimalRows)==nil) -- Switching vehicles clears metadata
 ''')
 print('PASS: mixed breeds, blocked types, live capacity, empty unlock, warning throttle, HUD counts')
+r.execute('''
+g_currentModName='FS25_z_LivestockCapacityHUD'
+g_specializationManager={getSpecializationObjectByName=function() return LivestockCapacityHUD end}
+AnimalScreen=nil
+''')
+r.execute((Path(__file__).parent/'source/scripts/AnimalDialogGuard.lua').read_text())
+r.execute('''
+local G=LivestockAnimalDialogGuard
+local screen={controller={trailer=vehicle},sourceList={getItemCount=function() return 1 end,getSelectedIndex=function() return 1 end},
+sourceSelector={getState=function() return 1 end},sourceSelectorStateToAnimalType={[1]=2}}
+load={cluster(1,1000),cluster(2,460)}
+capacity=5000
+assert(not G.preflight(screen,true)) -- actual wrong-type loading action
+assert(warnings==1)
+assert(not G.preflight(screen,true))
+assert(warnings==1)
+screen.sourceSelectorStateToAnimalType[1]=1
+assert(G.preflight(screen,true)) -- goats/sheep same type
+assert(G.preflight(screen,false)) -- unloading must still work
+screen.sourceList.getItemCount=function() return 0 end
+assert(not G.preflight(screen,true)) -- stale/empty selection never reaches game callback
+load={}
+screen.sourceList.getItemCount=function() return 1 end
+screen.sourceSelectorStateToAnimalType[1]=2
+assert(G.preflight(screen,true)) -- emptied trailer permits another type
+''')
+print('PASS: transfer-only warning, unchanged browsing, stale selection, same-type loading and unloading')

@@ -4,7 +4,7 @@ BinyamFS repair notes, reproducible edit instructions, and original standalone f
 
 | Record | Applicable version | Status |
 | --- | --- | --- |
-| [Livestock Capacity HUD](fixes/livestock-capacity-hud/README.md) | Standalone add-on 1.0.0.0 | Capacity HUD and mixed-type guard; in-game confirmation pending |
+| [Livestock Capacity HUD](fixes/livestock-capacity-hud/README.md) | Standalone add-on 1.0.0.1 | Capacity HUD confirmed; dialog regression correction awaiting in-game check |
 | [Zielonka Real Orchards Edition Multifruit repair review](fixes/zielonka/README.md) | Zielonka Real Orchards Edition Multifruit 1.3.0.1 local snapshot | Recorded in-game checks, with explicit untested items |
 | [Bees Revamp repairs and compatibility](fixes/bees-revamp/README.md) | Original reviewed 1.0.1.0; local repair 1.0.1.4 | Earlier hive/infobox repairs and later On/Off gameplay confirmation recorded |
 | [Equipment and other mod repairs](fixes/zielonka/Other-mod-repair-report.md) | Historical setup-specific records | Individual versions and binaries need reconfirmation |
