@@ -3,6 +3,40 @@ LivestockAnimalDialogGuard = {}
 local G = LivestockAnimalDialogGuard
 local specializationName = g_currentModName .. ".livestockCapacityHUD"
 
+function G.installController(screen)
+    local c = screen.controller
+    if c == nil or c.trailer == nil or c.husbandry == nil or c.bfsGuardInstalled then return end
+    c.bfsGuardInstalled = true
+    for _, method in ipairs({"applySource", "applyTarget"}) do
+        local original = c[method]
+        if type(original) == "function" then
+            c[method] = function(controller, ...)
+                local spec = g_specializationManager:getSpecializationObjectByName(specializationName)
+                local animalType = controller.husbandry:getAnimalTypeIndex()
+                if spec ~= nil and not spec.isTypeAllowed(controller.trailer, animalType) then
+                    spec.warn(controller.trailer)
+                    print("[Livestock HUD] Rejected incompatible husbandry/trailer transfer")
+                    return false
+                end
+                return original(controller, ...)
+            end
+        end
+    end
+    -- Viewing clusters must not filter them by the receiving pen's species.
+    -- A read-only proxy limits the acceptance override to list construction;
+    -- the actual pen and controller are never temporarily modified.
+    local original = c.initSourceItems
+    if type(original) == "function" then
+        c.initSourceItems = function(controller, ...)
+            local h = controller.husbandry
+            local penView = setmetatable({getSupportsAnimalSubType=function() return true end}, {__index=h})
+            local controllerView = setmetatable({husbandry=penView}, {__index=controller, __newindex=controller})
+            return original(controllerView, ...)
+        end
+    end
+    print("[Livestock HUD] Installed controller transfer protection")
+end
+
 function G.preflight(screen, loading)
     local controller = screen.controller
     local trailer = controller and controller.trailer
@@ -39,6 +73,11 @@ function G.preflight(screen, loading)
 end
 
 if AnimalScreen ~= nil then
+    for _, method in ipairs({"onClickBuyMode", "onClickSellMode"}) do
+        if type(AnimalScreen[method]) == "function" then
+            AnimalScreen[method] = Utils.prependedFunction(AnimalScreen[method], G.installController)
+        end
+    end
     for _, method in ipairs({"onClickBuy", "onClickSell"}) do
         if type(AnimalScreen[method]) == "function" then
             local loading = method == "onClickBuy"
