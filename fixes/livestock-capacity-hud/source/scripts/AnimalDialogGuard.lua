@@ -7,6 +7,31 @@ function G.installController(screen)
     local c = screen.controller
     if c == nil or c.trailer == nil or c.husbandry == nil or c.bfsGuardInstalled then return end
     c.bfsGuardInstalled = true
+    for _, method in ipairs({"getSourceAnimalTypes", "getSourceData", "getTargetData", "initSourceItems", "initTargetItems"}) do
+        local original = c[method]
+        if type(original) == "function" then
+            local label = method
+            c[method] = function(controller, ...)
+                local function pack(...) return {n=select("#", ...), ...} end
+                local args, result = pack(...), pack(original(controller, ...))
+                local parts = {}
+                for i=1,args.n do table.insert(parts, "arg"..i.."="..tostring(args[i])) end
+                for i=1,result.n do
+                    local value = result[i]
+                    if type(value) == "table" then
+                        local fields = {}
+                        for key, item in pairs(value) do
+                            if #fields >= 12 then break end
+                            table.insert(fields, tostring(key).."="..tostring(item))
+                        end
+                        table.insert(parts, "result"..i.."={"..table.concat(fields, ",").."}")
+                    else table.insert(parts, "result"..i.."="..tostring(value)) end
+                end
+                print("[Livestock HUD Lookup] "..label.." "..table.concat(parts, " "))
+                return unpack(result,1,result.n)
+            end
+        end
+    end
     for _, method in ipairs({"applySource", "applyTarget"}) do
         local original = c[method]
         if type(original) == "function" then
