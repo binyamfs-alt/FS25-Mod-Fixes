@@ -3,10 +3,10 @@
     <metaData>
         <version>0.9.22</version>
         <builddate>2026-09-29 01:39:25</builddate>
-        <timeofexecution>2026-10-09 00:29:35</timeofexecution>
-        <executionduration>0.064 sec</executionduration>
+        <timeofexecution>2026-10-09 00:41:06</timeofexecution>
+        <executionduration>0.067 sec</executionduration>
         <config>
-            <testdatapath>C:/Users/benbu/AppData/Local/Packages/sandbox.{ea35728b-924d-4a09-9f9f-8891f86f9ee1}/AC/Temp/_MEI333602/additionals/FS25_z_LivestockCapacityHUD_tmp_20640</testdatapath>
+            <testdatapath>C:/Users/benbu/AppData/Local/Packages/sandbox.{14365934-fd75-4d41-b777-3f1530e4a96b}/AC/Temp/_MEI493082/additionals/FS25_z_LivestockCapacityHUD_tmp_52560</testdatapath>
             <gamepath>D:/Steam/steamapps/common/Farming Simulator 25</gamepath>
             <output>
                 <directory>C:/Users/benbu/Documents/Codex/2026-10-08/i-w/outputs/Livestock-TestRunner</directory>

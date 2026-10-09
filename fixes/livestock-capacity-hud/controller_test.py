@@ -3,7 +3,13 @@ from lupa.lua51 import LuaRuntime
 r=LuaRuntime()
 r.execute('''
 g_currentModName='FS25_z_LivestockCapacityHUD'
-AnimalScreen=nil; warnings=0; moves=0; allowed=false
+AnimalScreen={onYesNoSource=function(_,yes) if yes then moves=moves+1; successes=successes+1 end end,
+onYesNoTarget=function(_,yes) if yes then moves=moves+1; successes=successes+1 end end}
+successes=0; notices=0
+Utils={overwrittenFunction=function(base,hook) return function(self,...) return hook(self,base,...) end end}
+InfoDialog={show=function(text) notices=notices+1; assert(text=='Trailer already loaded!') end}
+g_i18n={getText=function() return 'Trailer already loaded!' end}
+warnings=0; moves=0; allowed=false
 g_specializationManager={getSpecializationObjectByName=function() return {
 isTypeAllowed=function(_,t) return allowed end,warn=function() warnings=warnings+1 end,
 getLoad=function() return 4000,{[3]=true} end} end}
@@ -24,3 +30,18 @@ assert(c:getSourceAnimalTypes(false)[1].typeIndex==2) -- pen view stays cows
 assert(not h:getSupportsAnimalSubType(1))
 ''')
 print('PASS controller rejection, same-type transfers, trailer types and unchanged pen view')
+
+r.execute("""
+allowed=false
+local screen=setmetatable({controller=c},{__index=AnimalScreen})
+local before=moves
+screen:onYesNoTarget(true)
+assert(moves==before and successes==0 and notices==1)
+screen:onYesNoSource(true)
+assert(moves==before and successes==0 and notices==2)
+screen:onYesNoTarget(false)
+assert(notices==2 and successes==0)
+allowed=true; screen:onYesNoTarget(true)
+assert(moves==before+1 and successes==1 and notices==2)
+""")
+print('PASS dialog rejection suppresses success, cancel and compatible confirmation remain native')

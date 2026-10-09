@@ -110,6 +110,22 @@ function G.preflight(screen, loading)
 end
 
 if AnimalScreen ~= nil then
+    -- Native confirmation callbacks announce success independently of the
+    -- controller's return value. Reject here before that success path runs.
+    for _, method in ipairs({"onYesNoSource", "onYesNoTarget"}) do
+        if type(AnimalScreen[method]) == "function" then
+            AnimalScreen[method] = Utils.overwrittenFunction(AnimalScreen[method], function(screen, superFunc, yes, ...)
+                local c = screen.controller
+                local spec = g_specializationManager:getSpecializationObjectByName(specializationName)
+                if yes and c ~= nil and c.trailer ~= nil and c.husbandry ~= nil
+                    and spec ~= nil and not spec.isTypeAllowed(c.trailer, c.husbandry:getAnimalTypeIndex()) then
+                    InfoDialog.show(g_i18n:getText("bfs_trailerLoaded"))
+                    return
+                end
+                return superFunc(screen, yes, ...)
+            end)
+        end
+    end
     for _, method in ipairs({"onClickBuyMode", "onClickSellMode"}) do
         if type(AnimalScreen[method]) == "function" then
             AnimalScreen[method] = Utils.prependedFunction(AnimalScreen[method], G.installController)
