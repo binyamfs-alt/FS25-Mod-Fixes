@@ -10,7 +10,7 @@ The guard wraps native support/capacity checks before animal transfers. It does 
 
 ## Validation
 
-Lua 5.1 regression checks cover mixed breeds, different-type rejection despite a 5,000-capacity override, empty unlock, warning throttle, live capacity changes and integer HUD text. GIANTS TestRunner results are recorded in `validation/`. Actual in-game HUD placement and animal transfer confirmation remain pending user testing; packaging checks do not confirm gameplay.
+Lua 5.1 regression checks cover mixed breeds, different-type rejection despite a 5,000-capacity override, empty unlock, warning throttle, live capacity changes and integer HUD text. GIANTS TestRunner results are recorded in `validation/`. User screenshot on 2026-10-08 confirms the Maverick's in-game HUD shows Animals — 1,460 / 5,000 (29%) with a capacity bar. Animal transfer rejection and the red warning still require in-game confirmation; packaging checks do not confirm gameplay.
 
 Build with Python and Pillow: `python build.py`. Run behavior tests with Lua 5.1 through Lupa: `python test.py`.
 
