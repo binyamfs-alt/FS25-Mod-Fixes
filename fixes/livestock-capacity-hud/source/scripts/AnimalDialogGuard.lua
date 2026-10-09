@@ -47,16 +47,28 @@ function G.installController(screen)
             end
         end
     end
-    -- Viewing clusters must not filter them by the receiving pen's species.
-    -- A read-only proxy limits the acceptance override to list construction;
-    -- the actual pen and controller are never temporarily modified.
-    local original = c.initSourceItems
+    -- Observed controller contract: true selects the trailer/unload view;
+    -- false selects the pen. Only the trailer view uses its loaded types.
+    local original = c.getSourceAnimalTypes
     if type(original) == "function" then
-        c.initSourceItems = function(controller, ...)
-            local h = controller.husbandry
-            local penView = setmetatable({getSupportsAnimalSubType=function() return true end}, {__index=h})
-            local controllerView = setmetatable({husbandry=penView}, {__index=controller, __newindex=controller})
-            return original(controllerView, ...)
+        c.getSourceAnimalTypes = function(controller, trailerView, ...)
+            if trailerView then
+                local spec = g_specializationManager:getSpecializationObjectByName(specializationName)
+                if spec ~= nil then
+                    local _, types = spec.getLoad(controller.trailer)
+                    local result = {}
+                    for typeIndex in pairs(types) do
+                        local animalType = g_currentMission.animalSystem:getTypeByIndex(typeIndex)
+                        if animalType ~= nil then table.insert(result, animalType) end
+                    end
+                    table.sort(result, function(a,b) return a.typeIndex < b.typeIndex end)
+                    if #result > 0 then
+                        print("[Livestock HUD] Trailer view uses loaded animal types")
+                        return result
+                    end
+                end
+            end
+            return original(controller, trailerView, ...)
         end
     end
     print("[Livestock HUD] Installed controller transfer protection")
@@ -101,15 +113,6 @@ if AnimalScreen ~= nil then
     for _, method in ipairs({"onClickBuyMode", "onClickSellMode"}) do
         if type(AnimalScreen[method]) == "function" then
             AnimalScreen[method] = Utils.prependedFunction(AnimalScreen[method], G.installController)
-        end
-    end
-    for _, method in ipairs({"onClickBuy", "onClickSell"}) do
-        if type(AnimalScreen[method]) == "function" then
-            local loading = method == "onClickBuy"
-            AnimalScreen[method] = Utils.overwrittenFunction(AnimalScreen[method], function(screen, superFunc, ...)
-                if not G.preflight(screen, loading) then return false end
-                return superFunc(screen, ...)
-            end)
         end
     end
 end

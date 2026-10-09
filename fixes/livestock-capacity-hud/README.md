@@ -1,6 +1,6 @@
 # Livestock Capacity HUD
 
-Original standalone BinyamFS add-on, diagnostic version 1.0.0.2. Install `builds/FS25_z_LivestockCapacityHUD.zip` alongside your livestock trailer and enable it in the save's mod list.
+Original standalone BinyamFS add-on, version 1.0.0.5. Install `builds/FS25_z_LivestockCapacityHUD.zip` alongside your livestock trailer and enable it in the save's mod list.
 
 Adds animal count, current capacity and percentage to the existing game capacity HUD. Counts real animal clusters rather than visible models. Reads the trailer's live capacity, including Livestock Trailer Custom settings. Empty trailers show the largest supported type capacity; native trailers with different capacities per type change capacity when loaded.
 
@@ -22,3 +22,5 @@ User testing of 1.0.0.1 confirmed one cow could be added to 4,000 goats without 
 
 Version 1.0.0.3 moves rejection to the observed controller applySource/applyTarget methods. Transfers between incompatible loaded trailers and pens are rejected before mutation. The pen acceptance filter is temporarily lifted only while constructing the trailer/source list, then restored even on errors. This correction still needs in-game confirmation. Existing mixed loads are not repaired automatically.
 Version 1.0.0.4 is diagnostic: trailer view still fails without a Lua error. Added logging of controller type/data lookups to locate the remaining filter.
+
+Version 1.0.0.5 corrects getSourceAnimalTypes(true) to use the loaded trailer types; getSourceAnimalTypes(false) retains native pen types. Removed the unused initSourceItems proxy and legacy button hooks. Controller tests verify a sheep/goat trailer at a cow pen and unchanged pen view. In-game confirmation remains pending.
