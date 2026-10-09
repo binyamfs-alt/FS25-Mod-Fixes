@@ -1,6 +1,6 @@
 # Livestock Capacity HUD
 
-Original standalone BinyamFS add-on, version 1.0.0.1. Install `builds/FS25_z_LivestockCapacityHUD.zip` alongside your livestock trailer and enable it in the save's mod list.
+Original standalone BinyamFS add-on, diagnostic version 1.0.0.2. Install `builds/FS25_z_LivestockCapacityHUD.zip` alongside your livestock trailer and enable it in the save's mod list.
 
 Adds animal count, current capacity and percentage to the existing game capacity HUD. Counts real animal clusters rather than visible models. Reads the trailer's live capacity, including Livestock Trailer Custom settings. Empty trailers show the largest supported type capacity; native trailers with different capacities per type change capacity when loaded.
 
@@ -15,3 +15,7 @@ Lua 5.1 regression checks cover mixed breeds, different-type rejection despite a
 Build with Python and Pillow: `python build.py`. Run behavior tests with Lua 5.1 through Lupa: `python test.py`.
 
 GPL-3.0-or-later. Copyright 2026 BinyamFS. This folder contains original add-on code and generated artwork, with no third-party trailer or capacity-mod files.
+
+## Current regression investigation
+
+User testing of 1.0.0.1 confirmed one cow could be added to 4,000 goats without a warning, and trailer view remained unavailable at a cow husbandry before and after the transfer. The mixed-type protection is NOT working in that path. Version 1.0.0.2 is a temporary diagnostic build, not a verified fix; it records actual animal-dialog controller fields and action direction in the game log. Open both views without transferring animals for diagnosis. No save animals are changed by the diagnostic logger.

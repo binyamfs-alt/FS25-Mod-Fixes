@@ -678,14 +678,20 @@ Public License instead of this License.  But first, please read
 -->
 <modDesc descVersion="113">
     <author>BinyamFS</author>
-    <version>1.0.0.1</version>
+    <version>1.0.0.2</version>
     <title><en>Livestock Capacity HUD</en><de>Tiertransport-Kapazitätsanzeige</de></title>
     <description><en><![CDATA[Displays livestock trailer animal counts and live capacity in the game capacity HUD. Prevents loading different animal types together. Mixed breeds of the same type are allowed.
+
+Changelog 1.0.0.2:
+- Temporary animal-dialog diagnostics; transfer protection is not yet verified.
 
 Changelog 1.0.0.1:
 - Keep animal-type lists unchanged while opening the dialog.
 - Reject wrong-type loading at the transfer button.
 - Guard empty selections and full-trailer loading.]]></en><de><![CDATA[Zeigt Tieranzahl und aktuelle Kapazität im Spiel-HUD. Verhindert das gemeinsame Laden verschiedener Tierarten. Verschiedene Rassen derselben Tierart bleiben erlaubt.
+
+Changelog 1.0.0.2:
+- Temporäre Diagnose des Tierdialogs. Transfersicherung noch nicht bestätigt.
 
 Changelog 1.0.0.1:
 - Tierlisten beim Öffnen unverändert lassen.
@@ -694,7 +700,7 @@ Changelog 1.0.0.1:
     <iconFilename>icon_livestockCapacityHUD.dds</iconFilename>
     <multiplayer supported="true"/>
     <specializations><specialization name="livestockCapacityHUD" className="LivestockCapacityHUD" filename="scripts/LivestockCapacityHUD.lua"/></specializations>
-    <extraSourceFiles><sourceFile filename="scripts/Bootstrap.lua"/><sourceFile filename="scripts/AnimalDialogGuard.lua"/></extraSourceFiles>
+    <extraSourceFiles><sourceFile filename="scripts/Bootstrap.lua"/><sourceFile filename="scripts/AnimalDialogGuard.lua"/><sourceFile filename="scripts/AnimalDialogDiagnostics.lua"/></extraSourceFiles>
     <l10n>
         <text name="bfs_trailerFull"><en>Trailer is full!</en></text>
         <text name="bfs_animals"><en>Animals</en></text>
